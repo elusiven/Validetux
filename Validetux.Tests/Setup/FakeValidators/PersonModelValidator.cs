@@ -1,13 +1,17 @@
-﻿using Validetux.Tests.Setup.FakeModels;
+﻿using Validetux.Rules;
+using Validetux.Tests.Setup.FakeModels;
 
 namespace Validetux.Tests.Setup.FakeValidators
 {
-    public class PersonModelValidator : AbstractValidator<PersonModel>
+    internal class PersonModelValidator : AbstractValidator<PersonModel>
     {
-        public PersonModelValidator()
+        internal PersonModelValidator()
         {
-            RuleFor(p => p.FirstName)
+            AddRuleFor(p => p.FirstName)
                 .IsRequired();
+
+            AddRuleFor(p => p.Age)
+                .HasCustomRule(new IsMinimumLength(18));
         }
     }
 }

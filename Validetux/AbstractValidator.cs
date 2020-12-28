@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Validetux.Models;
 
 namespace Validetux
 {
-    public abstract class AbstractValidator<M>
+    public abstract class AbstractValidator<TM>
     {
-        private List<RulesContext<M>> _ruleContexts = new List<RulesContext<M>>();
+        private readonly List<RulesContext<TM>> _ruleContexts = new List<RulesContext<TM>>();
 
-        protected RuleBuilder RuleFor(Func<M, string> propertyFunc)
+        /// <summary>
+        /// Adds rules for given property
+        /// </summary>
+        /// <param name="propertyFunc"></param>
+        /// <returns></returns>
+        protected RuleBuilder AddRuleFor(Expression<Func<TM, object>> propertyFunc)
         {
             var ruleBuilder = new RuleBuilder();
-            _ruleContexts.Add(new RulesContext<M>
+            _ruleContexts.Add(new RulesContext<TM>
             {
-                ParamDetails = new ParameterDetails<M>(propertyFunc),
+                ParamDetails = new ParameterDetails<TM>(propertyFunc),
                 Rules = ruleBuilder.Rules
             });
             return ruleBuilder;
@@ -24,7 +30,7 @@ namespace Validetux
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public ValidationResult Validate(M model)
+        public ValidationResult Validate(TM model)
         {
             var validationResult = new ValidationResult();
 
@@ -35,10 +41,8 @@ namespace Validetux
                     var fieldName = validationRuleContext.ParamDetails.ParamName;
                     var func = validationRuleContext.ParamDetails.Param;
 
-                    if (!r.IsValid(func.Invoke(model),
-                        validationRuleContext.ParamDetails.ParamName))
-                            validationResult.Errors.Add(fieldName, r.ErrorMessage);
-
+                    if (!r.IsValid(func.Invoke(model), fieldName))
+                        validationResult.Errors.Add(fieldName, r.ErrorMessage);
                 });
             }
 

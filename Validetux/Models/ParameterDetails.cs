@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace Validetux.Models
 {
@@ -8,10 +9,14 @@ namespace Validetux.Models
 
         public string ParamName { get; set; }
 
-        public ParameterDetails(Func<M, object> param)
+        public ParameterDetails(Expression<Func<M, object>> param)
         {
-            Param = param;
-            ParamName = nameof(Param.Target);
+            var memberExpression = param?.Body as MemberExpression;
+            var urinaryExpression = param?.Body as UnaryExpression;
+
+            ParamName = memberExpression?.Member.Name ?? ((MemberExpression)urinaryExpression?.Operand)?.Member.Name;
+            var func = param?.Compile();
+            Param = func;
         }
     }
 }

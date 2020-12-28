@@ -6,25 +6,17 @@ namespace Validetux
 {
     public class RuleBuilder
     {
-        private List<IValidationRule> _rules = new List<IValidationRule>();
-
-        public List<IValidationRule> Rules
-        {
-            get
-            {
-                return _rules;
-            }
-        }
+        internal List<IValidationRule> Rules { get; } = new List<IValidationRule>();
 
         public RuleBuilder IsRequired(string errorMessage = null)
         {
-            _rules.Add(new IsRequiredValidationRule(errorMessage));
+            Rules.Add(new IsRequiredValidationRule(errorMessage));
             return this;
         }
 
         public RuleBuilder HasCustomRule(IValidationRule rule)
         {
-            _rules.Add(rule);
+            Rules.Add(rule);
             return this;
         }
     }
