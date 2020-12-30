@@ -1,5 +1,4 @@
-﻿using Validetux.Rules;
-using Validetux.Tests.Setup.FakeModels;
+﻿using Validetux.Tests.Setup.FakeModels;
 
 namespace Validetux.Tests.Setup.FakeValidators
 {
@@ -11,7 +10,11 @@ namespace Validetux.Tests.Setup.FakeValidators
                 .IsRequired();
 
             AddRuleFor(p => p.Age)
-                .HasCustomRule(new IsMinimumLength(18));
+                .HasMinLength(18);
+
+            AddRuleFor(p => p.Nicknames)
+                .IsRequired()
+                .HasMinLength(4);
         }
     }
 }

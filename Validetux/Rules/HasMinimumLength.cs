@@ -1,9 +1,8 @@
 ﻿using System.Collections;
-using Validetux.Abstractions;
 
 namespace Validetux.Rules
 {
-    public class IsMinimumLength : IValidationRule
+    public class HasMinimumLength : BaseValidationRule
     {
         public int Length { get; }
 
@@ -12,20 +11,19 @@ namespace Validetux.Rules
         /// </summary>
         /// <param name="length">Specify a minimum length</param>
         /// <param name="errorMessage">Optional error message. {0} = length / {1} = field name</param>
-        public IsMinimumLength(int length, string errorMessage = null)
+        public HasMinimumLength(int length, string errorMessage = null)
         {
             Length = length;
-            ErrorMessage = errorMessage ?? "Minimum value is {0} for {1}";
+            ErrorMessage = errorMessage ?? "{1} field requires a minimum length of {0}";
         }
 
-        public bool IsValid(object obj, string fieldName)
+        public override bool Validate(object obj, string fieldName)
         {
-            bool isValid = true;
-
-            ErrorMessage = string.Format(ErrorMessage, Length, fieldName);
+            if (fieldName != null)
+                ErrorMessage = string.Format(ErrorMessage, Length, fieldName);
 
             if (obj is string s)
-                isValid = s.Length >= Length;
+                IsValid = s.Length >= Length;
 
             if (obj is IEnumerable c)
             {
@@ -36,15 +34,13 @@ namespace Validetux.Rules
                     count++;
                 }
 
-                isValid = count >= Length;
+                IsValid = count >= Length;
             }
 
             if (obj is int i)
-                isValid = i >= Length;
+                IsValid = i >= Length;
 
-            return isValid;
+            return IsValid;
         }
-
-        public string ErrorMessage { get; set; }
     }
 }

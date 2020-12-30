@@ -1,25 +1,18 @@
-﻿using Validetux.Abstractions;
-
-namespace Validetux.Rules
+﻿namespace Validetux.Rules
 {
-    public class IsRequiredValidationRule : IValidationRule
+    public class IsRequiredValidationRule : BaseValidationRule
     {
-        public bool IsValid(object obj, string fieldName)
+        public override bool Validate(object obj, string fieldName)
         {
-            if (fieldName != null)
-                ErrorMessage = string.Format(ErrorMessage, fieldName);
-
-            var isValid = false;
+            base.Validate(obj, fieldName);
 
             if (obj is string s)
-                isValid = !string.IsNullOrEmpty(s);
+                IsValid = !string.IsNullOrEmpty(s);
             else
-                isValid = obj != null;
+                IsValid = obj != null;
 
-            return isValid;
+            return IsValid;
         }
-
-        public string ErrorMessage { get; set; }
 
         public IsRequiredValidationRule(string errorMessage = null)
         {

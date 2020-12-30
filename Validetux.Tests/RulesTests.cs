@@ -45,5 +45,26 @@ namespace Validetux.Tests
             Assert.NotNull(result.Errors[nameof(person.Age)]);
             Assert.False(result.IsValid);
         }
+
+        [Fact]
+        public void Given_AnArray_Length_Rules_Then_Validation_Fails()
+        {
+            var person = new PersonModel()
+            {
+                Age = 20,
+                FirstName = "S",
+                LastName = "VeryLongSurnameOfThisPerson",
+                Nicknames = new[] { "", "", "" }
+            };
+
+            var personValidator = new PersonModelValidator();
+
+            var result = personValidator.Validate(person);
+
+            Assert.NotNull(result);
+            Assert.True(result.Errors.ContainsKey(nameof(person.Nicknames)));
+            Assert.NotNull(result.Errors[nameof(person.Nicknames)]);
+            Assert.False(result.IsValid);
+        }
     }
 }
