@@ -11,6 +11,10 @@ namespace Validetux.Tests.Setup.FakeValidators
 
             AddRuleFor(p => p.Age)
                 .HasMinLength(18);
+
+            AddRuleFor(p => p.Nicknames)
+                .IsRequired()
+                .HasMinLength(4);
         }
     }
 }

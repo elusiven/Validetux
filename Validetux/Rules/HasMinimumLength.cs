@@ -2,7 +2,7 @@
 
 namespace Validetux.Rules
 {
-    public class IsMinimumLength : BaseValidationRule
+    public class HasMinimumLength : BaseValidationRule
     {
         public int Length { get; }
 
@@ -11,10 +11,10 @@ namespace Validetux.Rules
         /// </summary>
         /// <param name="length">Specify a minimum length</param>
         /// <param name="errorMessage">Optional error message. {0} = length / {1} = field name</param>
-        public IsMinimumLength(int length, string errorMessage = null)
+        public HasMinimumLength(int length, string errorMessage = null)
         {
             Length = length;
-            ErrorMessage = errorMessage ?? "Minimum value is {0} for {1}";
+            ErrorMessage = errorMessage ?? "{1} field requires a minimum length of {0}";
         }
 
         public override bool Validate(object obj, string fieldName)

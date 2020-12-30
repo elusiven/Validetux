@@ -1,6 +1,4 @@
-﻿using Validetux.Abstractions;
-
-namespace Validetux.Rules
+﻿namespace Validetux.Rules
 {
     public class IsRequiredValidationRule : BaseValidationRule
     {

@@ -6,11 +6,11 @@ namespace Validetux.Models
     {
         public bool IsValid => Errors.Count == 0;
 
-        public Dictionary<string, string> Errors { get; set; }
+        public Dictionary<string, List<string>> Errors { get; set; }
 
         public ValidationResult()
         {
-            Errors = new Dictionary<string, string>();
+            Errors = new Dictionary<string, List<string>>();
         }
     }
 }
