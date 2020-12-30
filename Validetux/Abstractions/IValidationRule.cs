@@ -2,7 +2,7 @@
 {
     public interface IValidationRule
     {
-        bool IsValid(object obj, string fieldName);
+        bool Validate(object obj, string fieldName);
 
         string ErrorMessage { get; set; }
     }

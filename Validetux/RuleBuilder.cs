@@ -14,6 +14,12 @@ namespace Validetux
             return this;
         }
 
+        public RuleBuilder HasMinLength(int length, string errorMessage = null)
+        {
+            Rules.Add(new IsMinimumLength(length, errorMessage));
+            return this;
+        }
+
         public RuleBuilder HasCustomRule(IValidationRule rule)
         {
             Rules.Add(rule);

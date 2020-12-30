@@ -41,7 +41,7 @@ namespace Validetux
                     var fieldName = validationRuleContext.ParamDetails.ParamName;
                     var func = validationRuleContext.ParamDetails.Param;
 
-                    if (!r.IsValid(func.Invoke(model), fieldName))
+                    if (!r.Validate(func.Invoke(model), fieldName))
                         validationResult.Errors.Add(fieldName, r.ErrorMessage);
                 });
             }

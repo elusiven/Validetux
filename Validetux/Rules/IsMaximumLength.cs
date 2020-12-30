@@ -2,19 +2,19 @@
 
 namespace Validetux.Rules
 {
-    public class IsMinimumLength : BaseValidationRule
+    public class IsMaximumLength : BaseValidationRule
     {
         public int Length { get; }
 
         /// <summary>
-        /// Rule for minimum length
+        /// Rule for max length
         /// </summary>
-        /// <param name="length">Specify a minimum length</param>
+        /// <param name="length">Specify a max length</param>
         /// <param name="errorMessage">Optional error message. {0} = length / {1} = field name</param>
-        public IsMinimumLength(int length, string errorMessage = null)
+        public IsMaximumLength(int length, string errorMessage = null)
         {
             Length = length;
-            ErrorMessage = errorMessage ?? "Minimum value is {0} for {1}";
+            ErrorMessage = errorMessage ?? "Maximum value is {0} for {1}";
         }
 
         public override bool Validate(object obj, string fieldName)
@@ -23,7 +23,7 @@ namespace Validetux.Rules
                 ErrorMessage = string.Format(ErrorMessage, Length, fieldName);
 
             if (obj is string s)
-                IsValid = s.Length >= Length;
+                IsValid = s.Length <= Length;
 
             if (obj is IEnumerable c)
             {
@@ -34,11 +34,11 @@ namespace Validetux.Rules
                     count++;
                 }
 
-                IsValid = count >= Length;
+                IsValid = count <= Length;
             }
 
             if (obj is int i)
-                IsValid = i >= Length;
+                IsValid = i <= Length;
 
             return IsValid;
         }
